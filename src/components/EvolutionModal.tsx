@@ -34,7 +34,7 @@ export default function EvolutionModal({ open, onClose }: { open: boolean, onClo
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (open && apiType === "AGX") {
       loadInstances();
       setQrCode(null);

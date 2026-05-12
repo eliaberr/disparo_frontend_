@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "@/services/api";
-import { IoTrash, IoWarningOutline } from "react-icons/io5"; // Importando ícones para a modal
+import { IoWarningOutline } from "react-icons/io5"; // Importando ícones para a modal
 import { CgSpinner } from "react-icons/cg";
 
 export default function CampaignCard({ campaign, onReload, onEdit }: any) {
@@ -10,7 +10,7 @@ export default function CampaignCard({ campaign, onReload, onEdit }: any) {
 
   // Auto-refresh do progresso quando está enviando
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (campaign.status === 'enviando') {
       interval = setInterval(() => {
         onReload();
