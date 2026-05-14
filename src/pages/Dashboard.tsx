@@ -12,10 +12,9 @@ export default function Dashboard() {
   const [evolutionOpen, setEvolutionOpen] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
 
-  // Função para deslogar
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.reload(); // Recarrega para voltar à tela de login
+    window.location.reload();
   };
 
   const load = useCallback(async () => {
@@ -62,39 +61,69 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 dark:text-slate-100 p-6 transition-colors duration-200">
+    <div className="min-h-screen bg-[#1C1D20] text-slate-100 p-6 transition-colors">
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex justify-between items-center gap-4 flex-wrap">
-          <div className="items-center gap-4 text-center w-full">
-            <h1 className="text-3xl font-bold">Dashboard</h1>
+        
+        {/* === NOVO CABEÇALHO ESPAÇADO E MODERNO === */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-4 border-b border-slate-800">
+          
+          {/* Título à esquerda */}
+          <div>
+            <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+            <p className="text-slate-400 text-sm mt-1">Gerencie seus disparos e campanhas</p>
           </div>
-          <div className="flex items-center gap-4 flex-1 justify-end">
-            <input
-              className="border p-2 rounded w-full max-w-64 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 transition-colors"
-              placeholder="Buscar campanha..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button
-              onClick={newCampaign}
-              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors shadow-md"
-            >
-              Nova campanha
-            </button>
-            <button
-              onClick={() => setEvolutionOpen(true)}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 transition-colors shadow-md flex items-center gap-2"
-            >
-              WhatsApp
-            </button>
+
+          {/* Área de Ações à direita */}
+          <div className="flex flex-wrap items-center gap-4">
+            
+            {/* Input de Busca com Ícone */}
+            <div className="relative group">
+              <span className="absolute inset-y-0 left-3 flex items-center text-slate-500">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <input
+                className="pl-10 pr-4 py-2.5 rounded-xl bg-[#141517] border border-slate-700 text-white w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all shadow-inner"
+                placeholder="Buscar campanha..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Grupo de Botões (Nova Campanha e WhatsApp) encapsulados */}
+            <div className="flex items-center gap-2 bg-[#141517] p-1.5 rounded-2xl border border-slate-700 shadow-sm">
+              <button
+                onClick={newCampaign}
+                className="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all font-semibold text-sm shadow-md active:scale-95"
+              >
+                Nova campanha
+              </button>
+              <button
+                onClick={() => setEvolutionOpen(true)}
+                className="bg-green-600/10 text-green-500 border border-green-600/20 px-5 py-2 rounded-xl hover:bg-green-600 hover:text-white transition-all font-semibold text-sm flex items-center gap-2 active:scale-95"
+              >
+                WhatsApp
+              </button>
+            </div>
+
+            {/* Separador Visual (Linha fina) */}
+            <div className="h-8 w-px bg-slate-800 hidden md:block mx-2" />
+
+            {/* Botão Sair isolado */}
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white text-3xl flex justify-center items-center rounded hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 transition-colors h-10 w-12"
+              className="bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-all shadow-sm active:scale-90"
+              title="Sair"
             >
-              <ImExit />
+              <ImExit size={20} />
             </button>
+
           </div>
         </div>
+        {/* === FIM DO NOVO CABEÇALHO === */}
+
+        {/* Grid de Campanhas */}
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.length > 0 ? (
             filtered.map((c) => (
@@ -106,13 +135,15 @@ export default function Dashboard() {
               />
             ))
           ) : (
-            <div className="col-span-full py-10 text-center text-gray-500 dark:text-gray-400 italic transition-colors">
+            <div className="col-span-full py-10 text-center text-slate-400 italic">
               {query
                 ? "Nenhuma campanha encontrada para esta busca."
                 : "Nenhuma campanha cadastrada."}
             </div>
           )}
         </div>
+        
+        {/* Modais */}
         <NewCampaignModal
           open={open}
           onClose={() => setOpen(false)}
