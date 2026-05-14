@@ -62,7 +62,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 p-6">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 dark:text-slate-100 p-6 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center gap-4 flex-wrap">
           <div className="items-center gap-4 text-center w-full">
@@ -70,26 +70,26 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-4 flex-1 justify-end">
             <input
-              className="border p-2 rounded w-full max-w-64 bg-white shadow-sm"
+              className="border p-2 rounded w-full max-w-64 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 transition-colors"
               placeholder="Buscar campanha..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
             <button
               onClick={newCampaign}
-              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors shadow-md"
+              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors shadow-md"
             >
               Nova campanha
             </button>
             <button
               onClick={() => setEvolutionOpen(true)}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors shadow-md flex items-center gap-2"
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 transition-colors shadow-md flex items-center gap-2"
             >
               WhatsApp
             </button>
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white text-3xl flex justify-center items-center rounded hover:bg-red-600 transition-colors h-10 w-12"
+              className="bg-red-500 text-white text-3xl flex justify-center items-center rounded hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 transition-colors h-10 w-12"
             >
               <ImExit />
             </button>
@@ -106,7 +106,7 @@ export default function Dashboard() {
               />
             ))
           ) : (
-            <div className="col-span-full py-10 text-center text-gray-500 italic">
+            <div className="col-span-full py-10 text-center text-gray-500 dark:text-gray-400 italic transition-colors">
               {query
                 ? "Nenhuma campanha encontrada para esta busca."
                 : "Nenhuma campanha cadastrada."}
