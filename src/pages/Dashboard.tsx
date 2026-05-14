@@ -65,7 +65,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center gap-4 flex-wrap">
-          <div className="flex items-center gap-4">
+          <div className="items-center gap-4 text-center w-full">
             <h1 className="text-3xl font-bold">Dashboard</h1>
           </div>
           <div className="flex items-center gap-4 flex-1 justify-end">
