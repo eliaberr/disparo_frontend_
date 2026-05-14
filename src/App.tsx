@@ -6,15 +6,22 @@ export default function App() {
   const [logged, setLogged] = useState(!!localStorage.getItem("token"));
 
   useEffect(() => {
-    // Força as classes dark por segurança
-    document.documentElement.classList.add('dark');
-    document.body.classList.add('dark');
-    // Pinta o fundo da tela 100% com a sua cor base
-    document.body.style.backgroundColor = "#1C1D20";
+    const urlParams = new URLSearchParams(window.location.search);
+    const theme = urlParams.get('theme');
+
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      document.body.style.backgroundColor = "#f1f5f9"; // slate-100 para o fundo claro
+    } else {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+      document.body.style.backgroundColor = "#1C1D20"; // A sua cor escura
+    }
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#1C1D20] text-slate-100">
+    <div className="w-full min-h-screen text-slate-900 dark:text-slate-100 transition-colors duration-300">
       {logged ? <Dashboard /> : <Login onLogin={() => setLogged(true)} />}
     </div>
   );

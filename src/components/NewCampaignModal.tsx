@@ -110,8 +110,8 @@ export default function NewCampaignModal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-      <div className="bg-white w-[950px] rounded-2xl p-6 grid grid-cols-2 gap-6">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+      <div className="bg-white dark:bg-[#141517] w-237.5 rounded-2xl p-6 grid grid-cols-2 gap-6">
         {/* CONTATOS */}
         <div className="space-y-3">
           <h2 className="text-xl font-bold">Contatos</h2>
@@ -139,7 +139,7 @@ export default function NewCampaignModal({
             </button>
           </div>
 
-          <label className="flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-xl cursor-pointer hover:bg-blue-50">
+          <label className="flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-xl cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-50/10">
             <span>Importar CSV</span>
 
             <input
@@ -188,22 +188,26 @@ export default function NewCampaignModal({
             onChange={(e) => setMessage(e.target.value)}
           />
 
-          <div className="bg-gray-100 p-3 rounded">
+          <div className="bg-gray-100 p-3 rounded dark:bg-transparent dark:border">
             <p className="text-sm text-gray-500">Prévia:</p>
 
             <p>{message.replace("{nome}", contacts[0]?.name || "Cliente")}</p>
           </div>
 
-          <button
-            onClick={save}
-            className="w-full bg-green-600 text-white py-2 rounded"
-          >
-            {editing ? "Salvar alterações" : "Criar campanha"}
-          </button>
-
-          <button onClick={onClose} className="w-full text-red-600">
-            Cancelar
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 cursor-pointer"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={save}
+              className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 cursor-pointer"
+            >
+              {editing ? "Salvar alterações" : "Criar campanha"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

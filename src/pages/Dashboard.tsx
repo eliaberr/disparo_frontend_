@@ -61,22 +61,16 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1C1D20] text-slate-100 p-6 transition-colors">
+    <div className="min-h-screen bg-slate-100 dark:bg-[#1C1D20] text-slate-900 dark:text-slate-100 p-6 transition-colors duration-300">
       <div className="max-w-7xl mx-auto space-y-6">
         
-        {/* === NOVO CABEÇALHO ESPAÇADO E MODERNO === */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-4 border-b border-slate-800">
-          
-          {/* Título à esquerda */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-4 border-b border-slate-300 dark:border-slate-800">
           <div>
-            <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-            <p className="text-slate-400 text-sm mt-1">Gerencie seus disparos e campanhas</p>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Gerencie seus disparos e campanhas</p>
           </div>
 
-          {/* Área de Ações à direita */}
           <div className="flex flex-wrap items-center gap-4">
-            
-            {/* Input de Busca com Ícone */}
             <div className="relative group">
               <span className="absolute inset-y-0 left-3 flex items-center text-slate-500">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -84,15 +78,14 @@ export default function Dashboard() {
                 </svg>
               </span>
               <input
-                className="pl-10 pr-4 py-2.5 rounded-xl bg-[#141517] border border-slate-700 text-white w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all shadow-inner"
+                className="pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-[#141517] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all shadow-sm"
                 placeholder="Buscar campanha..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
 
-            {/* Grupo de Botões (Nova Campanha e WhatsApp) encapsulados */}
-            <div className="flex items-center gap-2 bg-[#141517] p-1.5 rounded-2xl border border-slate-700 shadow-sm">
+            <div className="flex items-center gap-2 bg-white dark:bg-[#141517] p-1.5 rounded-2xl border border-slate-300 dark:border-slate-700 shadow-sm transition-colors">
               <button
                 onClick={newCampaign}
                 className="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all font-semibold text-sm shadow-md active:scale-95"
@@ -101,29 +94,24 @@ export default function Dashboard() {
               </button>
               <button
                 onClick={() => setEvolutionOpen(true)}
-                className="bg-green-600/10 text-green-500 border border-green-600/20 px-5 py-2 rounded-xl hover:bg-green-600 hover:text-white transition-all font-semibold text-sm flex items-center gap-2 active:scale-95"
+                className="bg-green-50 dark:bg-green-600/10 text-green-600 dark:text-green-500 dark:hover:bg-green-600 dark:hover:text-white border border-green-200 dark:border-green-600/20 px-5 py-2 rounded-xl hover:bg-green-600 hover:text-white transition-all font-semibold text-sm flex items-center gap-2 active:scale-95"
               >
                 WhatsApp
               </button>
             </div>
 
-            {/* Separador Visual (Linha fina) */}
-            <div className="h-8 w-px bg-slate-800 hidden md:block mx-2" />
+            <div className="h-8 w-px bg-slate-300 dark:bg-slate-800 hidden md:block mx-2" />
 
-            {/* Botão Sair isolado */}
             <button
               onClick={handleLogout}
-              className="bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-all shadow-sm active:scale-90"
+              className="bg-red-50 dark:bg-red-500/10 text-red-500 border border-red-200 dark:border-red-500/20  hover:bg-red-500 dark:hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-all shadow-sm active:scale-90"
               title="Sair"
             >
               <ImExit size={20} />
             </button>
-
           </div>
         </div>
-        {/* === FIM DO NOVO CABEÇALHO === */}
 
-        {/* Grid de Campanhas */}
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.length > 0 ? (
             filtered.map((c) => (
@@ -135,15 +123,13 @@ export default function Dashboard() {
               />
             ))
           ) : (
-            <div className="col-span-full py-10 text-center text-slate-400 italic">
+            <div className="col-span-full py-10 text-center text-slate-500 dark:text-slate-400 italic">
               {query
                 ? "Nenhuma campanha encontrada para esta busca."
                 : "Nenhuma campanha cadastrada."}
             </div>
           )}
         </div>
-        
-        {/* Modais */}
         <NewCampaignModal
           open={open}
           onClose={() => setOpen(false)}
