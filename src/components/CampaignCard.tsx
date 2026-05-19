@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { api } from "@/services/api";
 import { IoWarningOutline } from "react-icons/io5";
-import { CgSpinner } from "react-icons/cg";
 
 export default function CampaignCard({ campaign, onReload, onEdit }: any) {
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
