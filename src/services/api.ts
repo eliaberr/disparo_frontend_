@@ -1,12 +1,16 @@
 const BASE = "http://10.10.0.153:5000";
+
 const getToken = () => localStorage.getItem("token") || "";
+
 const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`,
 });
+
 const jsonHeaders = () => ({
   "Content-Type": "application/json",
   Authorization: `Bearer ${getToken()}`,
 });
+
 export const api = {
   login: async (email: string, password: string) => {
     const res = await fetch(`${BASE}/auth/login`, {
@@ -34,17 +38,14 @@ export const api = {
     const res = await fetch(`${BASE}/campaigns`, {
       method: "POST",
       headers: jsonHeaders(),
-      body: JSON.stringify(data),
+      body: JSON.stringify(data), // 🔥 Já envia message_b e message_c perfeitamente
     });
     return res.json();
   },
   updateCampaign: async (id: number, data: any) => {
     const res = await fetch(`${BASE}/campaigns/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
+      headers: jsonHeaders(), // 🔥 Padronizado usando a sua função jsonHeaders
       body: JSON.stringify(data),
     });
     return res.json();
@@ -64,7 +65,7 @@ export const api = {
     return res.json();
   },
 
-  // No seu api.ts, adicione dentro do export const api = { ... }
+  // --- Evolution API ---
   getInstances: async () => {
     const res = await fetch(`${BASE}/evolution/instances`, {
       headers: authHeaders(),
