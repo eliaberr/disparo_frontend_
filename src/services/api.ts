@@ -11,86 +11,76 @@ const jsonHeaders = () => ({
   Authorization: `Bearer ${getToken()}`,
 });
 
+// 🔥 WRAPPER: Centraliza as chamadas e desloga se o token expirar (401)
+const request = async (url: string, options: RequestInit = {}) => {
+  const res = await fetch(url, options);
+
+  if (res.status === 401) {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+    throw new Error("Sessão expirada");
+  }
+
+  return res.json();
+};
+
 export const api = {
   login: async (email: string, password: string) => {
     const res = await fetch(`${BASE}/auth/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    return res.json();
-  },
-  getCampaigns: async () => {
-    const res = await fetch(`${BASE}/campaigns`, {
-      headers: authHeaders(),
-    });
-    return res.json();
-  },
-  getContacts: async (id: number) => {
-    const res = await fetch(`${BASE}/campaigns/${id}/contacts`, {
-      headers: authHeaders(),
-    });
-    return res.json();
-  },
-  createCampaign: async (data: any) => {
-    const res = await fetch(`${BASE}/campaigns`, {
-      method: "POST",
-      headers: jsonHeaders(),
-      body: JSON.stringify(data), // 🔥 Já envia message_b e message_c perfeitamente
-    });
-    return res.json();
-  },
-  updateCampaign: async (id: number, data: any) => {
-    const res = await fetch(`${BASE}/campaigns/${id}`, {
-      method: "PUT",
-      headers: jsonHeaders(), // 🔥 Padronizado usando a sua função jsonHeaders
-      body: JSON.stringify(data),
-    });
-    return res.json();
-  },
-  deleteCampaign: async (id: number) => {
-    const res = await fetch(`${BASE}/campaigns/${id}`, {
-      method: "DELETE",
-      headers: authHeaders(),
-    });
-    return res.json();
-  },
-  sendCampaign: async (id: number) => {
-    const res = await fetch(`${BASE}/campaigns/${id}/send`, {
-      method: "POST",
-      headers: authHeaders(),
-    });
-    return res.json();
+    const data = await res.json();
+    if (data.token) localStorage.setItem("token", data.token);
+    return data;
   },
 
-  // --- Evolution API ---
-  getInstances: async () => {
-    const res = await fetch(`${BASE}/evolution/instances`, {
-      headers: authHeaders(),
-    });
-    return res.json();
-  },
-  createInstance: async (instanceName: string) => {
-    const res = await fetch(`${BASE}/evolution/instances`, {
+  getCampaigns: () => request(`${BASE}/campaigns`, { headers: authHeaders() }),
+  getContacts: (id: number) =>
+    request(`${BASE}/campaigns/${id}/contacts`, { headers: authHeaders() }),
+  createCampaign: (data: any) =>
+    request(`${BASE}/campaigns`, {
       method: "POST",
       headers: jsonHeaders(),
-      body: JSON.stringify({ instanceName }),
-    });
-    return res.json();
-  },
-  connectInstance: async (instanceName: string) => {
-    const res = await fetch(`${BASE}/evolution/instances/connect/${instanceName}`, {
-      headers: authHeaders(),
-    });
-    return res.json();
-  },
-  deleteInstance: async (instanceName: string) => {
-    const res = await fetch(`${BASE}/evolution/instances/${instanceName}`, {
+      body: JSON.stringify(data),
+    }),
+  updateCampaign: (id: number, data: any) =>
+    request(`${BASE}/campaigns/${id}`, {
+      method: "PUT",
+      headers: jsonHeaders(),
+      body: JSON.stringify(data),
+    }),
+  deleteCampaign: (id: number) =>
+    request(`${BASE}/campaigns/${id}`, {
       method: "DELETE",
       headers: authHeaders(),
-    });
-    return res.json();
-  },
+    }),
+  sendCampaign: (id: number) =>
+    request(`${BASE}/campaigns/${id}/send`, {
+      method: "POST",
+      headers: authHeaders(),
+    }),
+
+  getInstances: () =>
+    request(`${BASE}/evolution/instances`, { headers: authHeaders() }),
+  createInstance: (instanceName: string) =>
+    request(`${BASE}/evolution/instances`, {
+      method: "POST",
+      headers: jsonHeaders(),
+      body: JSON.stringify({
+        instanceName,
+        qrcode: true,
+        integration: "WHATSAPP-BAILEYS",
+      }),
+    }),
+  connectInstance: (name: string) =>
+    request(`${BASE}/evolution/instances/connect/${name}`, {
+      headers: authHeaders(),
+    }),
+  deleteInstance: (name: string) =>
+    request(`${BASE}/evolution/instances/${name}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    }),
 };
